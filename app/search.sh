@@ -16,7 +16,8 @@ spark-submit \
     --master yarn \
     --packages com.datastax.spark:spark-cassandra-connector_2.12:3.4.0 \
     --conf spark.cassandra.connection.host=scylladb-server \
-    query.py <<< "$QUERY"
+    --archives /app/.venv.tar.gz#.venv \
+    query.py "$QUERY"
 
 # spark-submit \
 #     --master local[2] \
