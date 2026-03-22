@@ -1,8 +1,9 @@
 #!/bin/bash
-echo "This script include commands to run mapreduce jobs using hadoop streaming to index documents"
 
-echo "Input path is :"
-echo $1
+echo "Creating index in HDFS..."
+bash create_index.sh
 
+echo "Storing index to ScyllaDB..."
+bash store_index.sh
 
-hdfs dfs -ls /
+echo "Indexing complete"

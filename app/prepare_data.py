@@ -1,8 +1,8 @@
 from pathvalidate import sanitize_filename
-from tqdm import tqdm
+import os
 from pyspark.sql import SparkSession
 
-
+os.makedirs('data', exist_ok=True)
 spark = SparkSession.builder \
     .appName('data preparation') \
     .master("local") \
@@ -12,7 +12,7 @@ spark = SparkSession.builder \
 
 df = spark.read.parquet("/a.parquet")
 n = 1000
-df = df.select(['id', 'title', 'text']).sample(fraction=100 * n / df.count(), seed=0).limit(n)
+df = df.select(['id', 'title', 'text']).filter(df.text.isNotNull()).limit(n)
 
 
 def create_doc(row):
@@ -22,6 +22,3 @@ def create_doc(row):
 
 
 df.foreach(create_doc)
-
-
-# df.write.csv("/index/data", sep = "\t")

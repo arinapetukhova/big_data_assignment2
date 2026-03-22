@@ -1,2 +1,4 @@
 #!/bin/bash
-echo "store the index and others to Cassandra/ScyllaDB tables"
+python3 store_index.py
+
+echo "Store into ScyllaDB complete"

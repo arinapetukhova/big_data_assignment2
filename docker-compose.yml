@@ -1,6 +1,7 @@
 services:
   cluster-master:
     image: firasj/spark-docker-cluster
+    #platform: linux/amd64
     container_name: cluster-master
     ports:
       - "8088:8088"
@@ -14,7 +15,7 @@ services:
       - spark-cluster
     depends_on:
       - cluster-slave-1
-      - cassandra-server
+      - scylladb-server
     hostname: cluster-master
     tty: true
     working_dir: /app
@@ -25,25 +26,19 @@ services:
     
   cluster-slave-1:
     image: firasj/spark-docker-cluster
+    #platform: linux/amd64 
     container_name: cluster-slave-1
     networks:
       - spark-cluster
     hostname: cluster-slave-1
     tty: true
-  # cluster-slave-2:
-  #   image: firasj/spark-docker-cluster
-  #   container_name: cluster-slave-2
-  #   networks:
-  #     - spark-cluster
-  #   depends_on:
-  #     - cluster-slave-1
-  #   hostname: cluster-slave-2
-  #   tty: true
-  cassandra-server:
-    image: cassandra
-    container_name: cassandra-server
+
+  scylladb-server:
+    image: scylladb/scylla:5.2
+    #platform: linux/amd64
+    container_name: scylladb-server
     ports:
-      - "7000:7000"
+      - "9042:9042" 
     networks:
       - spark-cluster
     
